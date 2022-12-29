@@ -2,21 +2,17 @@
 #include <stdio.h>
 
 int main(void) {
-	int num = 0;
-	int count = 0;
-
+	int num = 0;	
 	scanf("%d", &num);
-	while (num != 1) {		
-		if (num % 3 == 0) 
-			num /= 3;		
-		else if (num % 3 == 1)
-			num -= 1;
-		else if (num % 2 == 0)
-			num /= 2;
-		else
-			num -= 1;
-		count++;
+	int dp[1000001] = { 0, };
+	dp[0] = dp[1] = 0;
+	for (int i = 2; i <= num; i++) {
+		dp[i] = dp[i - 1] + 1;
+		if (i % 3 == 0)
+			dp[i] = dp[i / 3] + 1 < dp[i] ? dp[i / 3] + 1 : dp[i];
+		if(i % 2 == 0)
+			dp[i] = dp[i/2] + 1 < dp[i] ? dp[i/2] + 1 : dp[i];		
 	}
-	printf("%d", count);
+	printf("%d", dp[num]);
 	return 0;
 }
