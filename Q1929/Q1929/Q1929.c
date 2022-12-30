@@ -1,29 +1,30 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <math.h>
 
 int main(void) {
 	int m, n;
 	scanf("%d %d", &m, &n);
 	int arr[100000] = { 0, };
 	int count = 0;
-	if (m <= 2) {						//시작이 2보다 작을때 2 집어넣어버리기
-		arr[count] = 2; count++;
-		m = 3;
-	}
-	if (m % 2 == 0)						//짝수 처리 
-		m++;
-	for (int i = m; i < n; i+=2) {		//3 이상 홀수에 대해서 2씩 증가.
-		for (int j = 2; j < i; j++) {
-			if (i % j == 0 ) {
+	arr[count] = 2;
+	count++;
+
+	for (int i = 2; i <= n; i++) {			//2부터 n까지 각 숫자가 소수인지? 각 숫자 접근하는 반복문
+		for (int j = 0; j < count; j++) {	//접근된 숫자에 대해서 소수인지 판별하려고 그 숫자보다 낮은 소수로 나눠보기.
+			if (i % arr[j] == 0) {			//나누어 떨어지는 경우가 있으면 break. 
 				break;
 			}
-			if (j == i / 3 + 1) {
+			if (pow(arr[j], 2) > i) {			// 에라토스테네스의 체
 				arr[count] = i;
 				count++;
-			}			
+				break;
+			}
 		}
 	}
-	for(int i = 0; i < count; i++)
-		printf("%d\n", arr[i]);
+	for (int i = 0; i < count; i++) {
+		if(arr[i] >= m)
+			printf("%d\n", arr[i]);
+	}
 	return 0;
 }
