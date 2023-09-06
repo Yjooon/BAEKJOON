@@ -1,55 +1,59 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
-
-#define FAST ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-
+	#include <iostream>
+#include <cstring>
+ 
 using namespace std;
-int n, m;
-string input;
-vector<int> arr(20);
-vector<int> result;
-
-int main() {
-    FAST;
-    cin >> n;
+ 
+ 
+//비트마스크로 풀기
+ 
+int main(){
     
-    for (int i = 0; i < n; i++) {
-        cin >> input;
-        if (input == "add") {
-            cin >> m;
-            arr[m - 1] = 1;
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    
+    string str = "";
+    int M, x;
+    
+    int S = 0;
+   
+    cin >> M;
+    for(int i = 0; i<M; i++){
+        cin >> str;
+        
+        if(str=="add"){
+            cin >> x;
+            S |= (1<<x);
         }
-        else if (input == "remove") {
-            cin >> m;
-            arr[m - 1] = 0;
+        
+        else if(str=="remove"){
+            cin >> x;
+            S &= ~(1<<x);
         }
-        else if (input == "check") {
-            cin >> m;
-            if (arr[m - 1] == 1)
-                cout << 1 << "\n";
-            else
-                cout << 0 << "\n";
-        }        
-        else if (input == "toggle") {
-            cin >> m;
-            if (arr[m - 1] == 1)
-                arr[m - 1] = 0;
-            else
-                arr[m - 1] = 1;
-        }
-        else if (input == "all") {
-            for (int i = 0; i < 20; i++) {
-                arr[i] = 1;
+        else if(str=="check"){
+            cin >> x;
+            if(S & (1<<x)){   //있으면
+                cout << "1\n";
+            } else{
+                cout << "0\n";
             }
         }
-        else if (input == "empty") {
-            for (int i = 0; i < 20; i++) {
-                arr[i] = 0;
+        else if(str=="toggle"){
+           cin >> x;
+            if(S & (1<<x)){  //있으면
+                S &= ~(1<<x); //없애고
+            } else{             //없으면
+                S |= (1<<x);     //추가
             }
         }
+        else if(str=="all"){
+            S = (1<<21) - 1;
+        }
+        else if(str=="empty"){
+            S = 0;
+        }
+        
+    
     }
-
+    
     return 0;
 }
